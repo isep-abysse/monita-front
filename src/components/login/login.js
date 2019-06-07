@@ -7,7 +7,7 @@ class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: "",
+            email: "",
             redirect: false
         };
         this.handleChange = this.handleChange.bind(this);
@@ -27,12 +27,12 @@ class Login extends React.Component {
 
     // Login
     handleChange(e) {
-        this.setState({username: e.target.value})
+        this.setState({email: e.target.value})
     }
 
     async login(e) {
         e.preventDefault();
-        await authService.login(this.state.username);
+        await authService.login(this.state.email);
         this.setRedirect()
     }
 

@@ -1,6 +1,8 @@
 import React from 'react';
 
 import { authService } from '../../services/authService';
+import { Link } from "react-router-dom";
+
 
 class Home extends React.Component {
     constructor(props) {
@@ -9,23 +11,28 @@ class Home extends React.Component {
         this.state = {
             currentUser: authService.currentUserValue,
         };
-        console.log(authService.currentUserValue);
-    }
-
-    componentDidMount() {
-        // authService.currentUser.subscribe(x => this.setState({ currentUser: x }));
-    }
-    componentDidUpdate () {
-        console.log('yoyoyo')
+        console.log(this.state.currentUser)
     }
 
     render() {
         const { currentUser} = this.state;
         return (
-            <div>
-                <h1>Hi {currentUser.username}!</h1>
-                <p>You're logged in !!</p>
-            </div>
+                <div>
+                    {currentUser.role === 'student' &&
+                    <div>
+                        <h1>Hi {currentUser.email}!</h1>
+                        <p>You're logged in as student !!</p>
+                    </div>
+                    }
+                    {currentUser.role === 'prof' &&
+                    <div>
+                        <h1>Vos classes!</h1>
+                        {/*todo liste des classes*/}
+
+                        <Link to="/addClassroom">Ajouter une classe</Link>
+                    </div>
+                    }
+                </div>
         );
     }
 }
