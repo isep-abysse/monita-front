@@ -18,7 +18,9 @@ class Home extends React.Component {
     }
 
     componentDidMount() {
-        this.getClasses();
+        if (this.state.currentUser.role === 'prof') {
+            this.getClasses();
+        }
     }
 
     async getClasses() {
@@ -34,8 +36,12 @@ class Home extends React.Component {
                 <div>
                     {currentUser.role === 'student' &&
                     <div>
-                        <h1>Hi {currentUser.email}!</h1>
-                        <p>You're logged in as student !!</p>
+                        <h1>Votre relevé de notes!</h1>
+                        <ul>
+                            {currentUser.subjects.map((e, key) => {
+                                return <li key={key}><Link to={`/subjects/${e.name}`}>{e.name}</Link></li>
+                            })}
+                        </ul>
                     </div>
                     }
                     {currentUser.role === 'prof' &&

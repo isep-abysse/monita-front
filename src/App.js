@@ -9,6 +9,7 @@ import { history } from "./helpers/history";
 import AddClassroom from "./components/addClassroom/addClassroom";
 import Classroom from "./components/classroom/classroom";
 import AddMarks from "./components/addMarks/addMarks";
+import Subject from "./components/subject/subject";
 
 
 class App extends React.Component {
@@ -41,7 +42,7 @@ class App extends React.Component {
                     <nav className="navbar navbar-expand navbar-dark bg-dark">
                         <div className="navbar-nav">
                             <Link to="/" className="nav-item nav-link">Home</Link>
-                            <a onClick={App.logout} className="nav-item nav-link">Logout</a>
+                            <a onClick={App.logout} className="nav-item nav-link">Logout ({currentUser.firstName})</a>
                         </div>
                     </nav>
                     }
@@ -55,6 +56,7 @@ class App extends React.Component {
                                     <Route path="/addClassroom" component={AddClassroom}/>
                                     <Route path="/classroom/:id" component={Classroom}/>
                                     <Route path="/classroom/add/:id" component={AddMarks}/>
+                                    <Route path="/subjects/:subject" component={Subject}/>
                                 </div>
                             </div>
                         </div>

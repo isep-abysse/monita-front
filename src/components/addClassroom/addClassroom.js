@@ -51,7 +51,7 @@ class AddClassroom extends React.Component {
                     <select name="students" value=' ' onChange={this.addStudent}>
                         <option value=' '> </option>
                         {this.state.options.map((e, key) => {
-                            return <option key={key} value={JSON.stringify(e)}>{e.email}</option>
+                            return <option key={key} value={e.id}>{e.email}</option>
                         })}
                     </select>
                     <ul>
