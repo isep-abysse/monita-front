@@ -42,9 +42,9 @@ class Login extends React.Component {
             <div>
                 <h2>Login</h2>
                 <form onSubmit={this.login}>
-                    <input name="email" type="text" onChange={this.handleChange}/>
-                    <input name="password" type="password"/>
-                    <input type="submit"/>
+                    <input name="email" type="text" onChange={this.handleChange} placeholder="Email"/>
+                    <input name="password" type="password" placeholder="Password"/>
+                    <input type="submit" value="Connexion"/>
                 </form>
                 {this.renderRedirect()}
             </div>

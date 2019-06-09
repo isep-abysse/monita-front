@@ -2,6 +2,7 @@ import React from 'react';
 
 import { authService } from '../../services/authService';
 import { Link } from "react-router-dom";
+import {classroomService} from "../../services/classroomService";
 
 
 class Home extends React.Component {
@@ -10,12 +11,25 @@ class Home extends React.Component {
 
         this.state = {
             currentUser: authService.currentUserValue,
+            classrooms: []
         };
-        console.log(this.state.currentUser)
+        console.log(this.state.currentUser);
+        this.getClasses = this.getClasses.bind(this)
+    }
+
+    componentDidMount() {
+        this.getClasses();
+    }
+
+    async getClasses() {
+        const classrooms = await classroomService.getAll(this.state.currentUser.id);
+        console.log(classrooms);
+        this.setState({classrooms: classrooms});
+        return classrooms
     }
 
     render() {
-        const { currentUser} = this.state;
+        const { currentUser, classrooms } = this.state;
         return (
                 <div>
                     {currentUser.role === 'student' &&
@@ -27,8 +41,11 @@ class Home extends React.Component {
                     {currentUser.role === 'prof' &&
                     <div>
                         <h1>Vos classes!</h1>
-                        {/*todo liste des classes*/}
-
+                        <ul>
+                            {classrooms.map((e, key) => {
+                                return <li key={key}><Link to={`/classroom/${e.id}`}>{e.name}</Link></li>
+                            })}
+                        </ul>
                         <Link to="/addClassroom">Ajouter une classe</Link>
                     </div>
                     }

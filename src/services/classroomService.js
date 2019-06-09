@@ -1,7 +1,9 @@
 import config from "../../src/config";
 
 export const classroomService = {
-    create
+    create,
+    getAll,
+    get
 };
 
 function create(name, teacher, students) {
@@ -16,5 +18,17 @@ function create(name, teacher, students) {
         headers: {"content-type": "application/json"}
     };
     const url = `${config.apiUrl}/classrooms`;
-    fetch(url, params);
+    fetch(url, params)
+}
+
+async function getAll(teacherId) {
+    const url = `${config.apiUrl}/classrooms/all/${teacherId}`;
+    const response = await fetch(url);
+    return await response.json()
+}
+
+async function get(classroomId) {
+    const url = `${config.apiUrl}/classrooms/${classroomId}`;
+    const response = await fetch(url);
+    return await response.json()
 }

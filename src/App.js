@@ -1,12 +1,14 @@
 import React from 'react';
 import './App.css';
-import { Router, Route } from "react-router-dom";
+import {Router, Route, Link} from "react-router-dom";
 import Login from './components/login/login'
 import Home from './components/home/home'
 import PrivateRoute from './components/privateRoute/privateRoute'
 import { authService } from './services/authService';
 import { history } from "./helpers/history";
 import AddClassroom from "./components/addClassroom/addClassroom";
+import Classroom from "./components/classroom/classroom";
+import AddMarks from "./components/addMarks/addMarks";
 
 
 class App extends React.Component {
@@ -38,10 +40,12 @@ class App extends React.Component {
                     {currentUser &&
                     <nav className="navbar navbar-expand navbar-dark bg-dark">
                         <div className="navbar-nav">
+                            <Link to="/" className="nav-item nav-link">Home</Link>
                             <a onClick={App.logout} className="nav-item nav-link">Logout</a>
                         </div>
                     </nav>
                     }
+                    {/*ROUTER*/}
                     <div className="jumbotron">
                         <div className="container">
                             <div className="row">
@@ -49,6 +53,8 @@ class App extends React.Component {
                                     <PrivateRoute exact path="/" component={Home} />
                                     <Route path="/login" component={Login} />
                                     <Route path="/addClassroom" component={AddClassroom}/>
+                                    <Route path="/classroom/:id" component={Classroom}/>
+                                    <Route path="/classroom/add/:id" component={AddMarks}/>
                                 </div>
                             </div>
                         </div>
