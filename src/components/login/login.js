@@ -22,7 +22,7 @@ class Login extends React.Component {
 
     renderRedirect = () => {
         if (this.state.redirect) {
-            return <Redirect to='/' />
+            return <Redirect to={{pathname: '/'}} />
         }
     };
 
@@ -84,6 +84,7 @@ class Login extends React.Component {
     render() {
         return (
             <div>
+                {this.renderRedirect()}
                 <h2>Se connecter</h2>
                 <form onSubmit={this.login}>
                     <input name="email" type="email" onChange={this.handleChange} placeholder="Email"/>
@@ -113,11 +114,9 @@ class Login extends React.Component {
                     <input name="password" type="password" placeholder="Mot de Passe"/>
                     <input type="submit" value="Inscription"/>
                 </form>
-                {this.renderRedirect()}
             </div>
         )
     }
-
 }
 
 export default Login;

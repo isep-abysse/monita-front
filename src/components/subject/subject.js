@@ -10,15 +10,21 @@ class Subject extends React.Component {
             subject: props.match.params.subject,
             marks: []
         };
-        console.log(this.state.currentUser);
+        this.getMarks = this.getMarks.bind(this)
     }
 
     componentDidMount() {
+        this.getMarks()
+    }
+
+    getMarks() {
         for (let i = 0; i < this.state.currentUser.subjects.length; i++) {
             if (this.state.currentUser.subjects[i].name === this.state.subject) {
                 for (let j = 0; j < this.state.currentUser.subjects[i].marks.length; j++) {
                     const newMark = this.state.currentUser.subjects[i].marks[j];
-                    this.state.marks.push(newMark)
+                    this.setState((prevState) => ({
+                        marks: [...prevState.marks, newMark]
+                    }));
                 }
             }
         }

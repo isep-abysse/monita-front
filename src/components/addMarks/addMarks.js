@@ -1,6 +1,7 @@
 import React from "react";
 import {classroomService} from "../../services/classroomService";
 import {userService} from "../../services/userService";
+import {Link} from "react-router-dom";
 
 class AddMarks extends React.Component {
     constructor(props) {
@@ -35,11 +36,13 @@ class AddMarks extends React.Component {
         e.preventDefault();
         const subjectName = this.state.classroom.teacher.subject;
         let coefficient = 0;
+        let type = '';
         // body.subject = subject;
 
         for (let i = 0; i < this.state.students.length + 2; i++) {
             if (i === 0) {
                 console.log('type : ' + e.target[i].value);
+                type = e.target[i].value;
                 // body.type = e.target[i].value
             } else if(i === 1) {
                 console.log(`coeff : ${e.target[i].valueAsNumber}`);
@@ -62,17 +65,30 @@ class AddMarks extends React.Component {
                             if (user.subjects[i].marks !== null) {
                                 const newMark = {
                                     value: markValue,
-                                    coefficient: coefficient
+                                    coefficient: coefficient,
+                                    type: type
                                 };
                                 let newMarks = user.subjects[i].marks.slice();
                                 newMarks.push(newMark);
                                 user.subjects[i].marks = newMarks;
+                                let average;
+                                let num = 0;
+                                let den = 0;
+                                for (let j = 0; j < user.subjects[i].marks.length; j++) {
+                                    const mark = user.subjects[i].marks[j];
+                                    num += mark.value * mark.coefficient;
+                                    den += mark.coefficient
+                                }
+                                average = num / den;
+                                user.subjects[i].average = average;
                                 userService.addMarks(user)
                             } else {
                                 user.subjects[i].marks = [{
                                     value: markValue,
-                                    coefficient: coefficient
+                                    coefficient: coefficient,
+                                    type: type
                                 }];
+                                user.subjects[i].average = markValue;
                                 userService.addMarks(user)
 
                             }
@@ -83,8 +99,10 @@ class AddMarks extends React.Component {
                         name: subjectName,
                         marks: [{
                             value: markValue,
-                            coefficient: coefficient
-                        }]
+                            coefficient: coefficient,
+                            type: type
+                        }],
+                        average: markValue
                     };
                     user.subjects = [subject];
                     userService.addMarks(user)
@@ -94,10 +112,12 @@ class AddMarks extends React.Component {
     }
 
     render() {
-        const { students } = this.state;
+        const { classroomId, classroom, students } = this.state;
         return (
             <div>
-                <h1>Ajouter des notes</h1>
+                <Link to={`/classroom/${classroomId}`}>Retour</Link>
+                <h1>{classroom.name}</h1>
+                <h2>Ajouter des notes</h2>
                 <form onSubmit={this.handleSubmit}>
                     <ul>
                         <input name="type" type="text" placeholder="Type (ex: DS)"/>

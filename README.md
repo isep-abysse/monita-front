@@ -10,4 +10,4 @@ Style with Bootstrap
 
 `npm start` on [http://localhost:3000](http://localhost:3000)
 
-Login with username 'Alice' (student) or 'Bob' (teacher) (no password)
+Login with email 'alice@isep.fr' (student) or 'bob@isep.fr' (teacher) (no password)

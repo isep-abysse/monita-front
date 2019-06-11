@@ -13,11 +13,13 @@ class Home extends React.Component {
             currentUser: authService.currentUserValue,
             classrooms: []
         };
+        console.log('component constructed');
         console.log(this.state.currentUser);
         this.getClasses = this.getClasses.bind(this)
     }
 
     componentDidMount() {
+        console.log('component did mount');
         if (this.state.currentUser.role === 'prof') {
             this.getClasses();
         }
@@ -39,7 +41,12 @@ class Home extends React.Component {
                         <h1>Votre relevé de notes!</h1>
                         <ul>
                             {currentUser.subjects.map((e, key) => {
-                                return <li key={key}><Link to={`/subjects/${e.name}`}>{e.name}</Link></li>
+                                return <li key={key}>
+                                    <Link to={{pathname: `/subjects/${e.name}`, state: {currentUser: currentUser}}}>
+                                        {e.name}
+                                    </Link>
+                                    <p>Moyenne : {e.average}</p>
+                                </li>
                             })}
                         </ul>
                     </div>

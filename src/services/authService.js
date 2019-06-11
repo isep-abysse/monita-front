@@ -38,6 +38,9 @@ async function login(username) {
 
 function logout() {
     // remove user from local storage to log user out
-    cookies.remove('currentUser');
+    let cookieArray = cookies.getAll();
+    for (let cookie in cookieArray) {
+        cookies.remove(cookie)
+    }
     currentUserSubject.next(null);
 }

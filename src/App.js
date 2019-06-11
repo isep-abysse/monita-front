@@ -1,16 +1,16 @@
 import React from 'react';
 import './App.css';
 import {Router, Route, Link} from "react-router-dom";
+import PrivateRoute from './components/privateRoute/privateRoute'
 import Login from './components/login/login'
 import Home from './components/home/home'
-import PrivateRoute from './components/privateRoute/privateRoute'
-import { authService } from './services/authService';
-import { history } from "./helpers/history";
 import AddClassroom from "./components/addClassroom/addClassroom";
 import Classroom from "./components/classroom/classroom";
 import AddMarks from "./components/addMarks/addMarks";
 import Subject from "./components/subject/subject";
-
+import Student from "./components/student/student";
+import { authService } from './services/authService';
+import { history } from "./helpers/history";
 
 class App extends React.Component {
 
@@ -55,8 +55,9 @@ class App extends React.Component {
                                     <Route path="/login" component={Login} />
                                     <Route path="/addClassroom" component={AddClassroom}/>
                                     <Route path="/classroom/:id" component={Classroom}/>
-                                    <Route path="/classroom/add/:id" component={AddMarks}/>
+                                    <Route path="/add/:id" component={AddMarks}/>
                                     <Route path="/subjects/:subject" component={Subject}/>
+                                    <Route path="/student/:id" component={Student}/>
                                 </div>
                             </div>
                         </div>

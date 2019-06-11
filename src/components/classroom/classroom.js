@@ -10,13 +10,15 @@ class Classroom extends React.Component {
         this.state = {
             classroomId: props.match.params.id,
             classroom: {},
-            students: []
+            students: [],
+            averages: []
         };
-        this.getClassroom = this.getClassroom.bind(this)
+        this.getClassroom = this.getClassroom.bind(this);
+        this.getAverages = this.getAverages.bind(this)
     }
 
     componentDidMount() {
-        this.getClassroom()
+        this.getClassroom();
     }
 
     async getClassroom() {
@@ -27,28 +29,51 @@ class Classroom extends React.Component {
             const student = await userService.get(classroom.students[i]);
             this.setState((prevState) => ({
                 students: [...prevState.students, student]
-            }));
+            }))
+        }
+        this.getAverages()
+    }
+
+    getAverages() {
+        const teacherSubject = this.state.classroom.teacher.subject;
+        for (let i = 0; i < this.state.students.length; i++) {
+            const student = this.state.students[i];
+            for (let j = 0; j < student.subjects.length; j++) {
+                const subject = student.subjects[j];
+                if (subject.name === teacherSubject) {
+                    const average = subject.average;
+                    this.setState((prevState) => ({
+                        averages: [...prevState.averages, average]
+                    }));
+                }
+            }
         }
     }
 
     render() {
-        const { classroom, students } = this.state;
+        const { classroom, students, averages } = this.state;
         return(
             <div>
-                <h2>Classe {classroom.name}</h2>
+                <Link to={`/`}>Retour</Link>
+                <h1>Classe {classroom.name}</h1>
                 <section>
                     <div>
-                        <Link to={`/classroom/add/${classroom.id}`}>Entrer des notes</Link>
+                        <Link to={`/add/${classroom.id}`}>Entrer des notes</Link>
                     </div>
                     <div>
                         <p>Définir les modalités de rattrapage</p>
                     </div>
                 </section>
-                <h3>Étudiants: </h3>
+                <h2>Étudiants: </h2>
                 <ul>
                     {students.map((e, key) => {
                         console.log(e);
-                        return <li key={key}>{e.firstName}</li>
+                        return <li key={key}>
+                            <Link to={`/student/${e.id}`}>
+                                {e.firstName}
+                            </Link>
+                            <p> Moyenne: {averages[key]}</p>
+                        </li>
                     })}
                 </ul>
             </div>
