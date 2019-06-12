@@ -38,7 +38,10 @@ class Subject extends React.Component {
                 <h1>Notes de la matière {subject}</h1>
                 <ul>
                     {marks.map((e, key) => {
-                        return <li key={key}>{e.value}</li>
+                        return <li key={key}>
+                            Note: {e.value}/20 | Coefficient: {e.coefficient} | Type: {e.type}<br/>
+                            Commentaire: {e.comment}
+                        </li>
                     })}
                 </ul>
             </div>

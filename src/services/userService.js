@@ -3,7 +3,7 @@ import config from '../config';
 export const userService = {
     getAll,
     get,
-    addMarks
+    update
 };
 
 async function getAll() {
@@ -12,12 +12,12 @@ async function getAll() {
 }
 
 async function get(id) {
-    const response = await fetch(`${config.apiUrl}/users/${id}`)
+    const response = await fetch(`${config.apiUrl}/users/${id}`);
     return await response.json()
 }
 
 // Send user subjects
-async function addMarks(updatedUser) {
+async function update(updatedUser) {
     const params = {
         method: 'PUT',
         body: JSON.stringify(updatedUser),

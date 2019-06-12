@@ -1,13 +1,15 @@
 import React from "react";
 import {classroomService} from "../../services/classroomService";
-import './classroom.css'
-import {Link} from "react-router-dom";
 import {userService} from "../../services/userService";
+import {authService} from "../../services/authService";
+import {Link} from "react-router-dom";
+import './classroom.css'
 
 class Classroom extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            currentUser: authService.currentUserValue,
             classroomId: props.match.params.id,
             classroom: {},
             students: [],
@@ -35,7 +37,7 @@ class Classroom extends React.Component {
     }
 
     getAverages() {
-        const teacherSubject = this.state.classroom.teacher.subject;
+        const teacherSubject = this.state.currentUser.subject;
         for (let i = 0; i < this.state.students.length; i++) {
             const student = this.state.students[i];
             for (let j = 0; j < student.subjects.length; j++) {

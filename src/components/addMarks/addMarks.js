@@ -1,12 +1,14 @@
 import React from "react";
 import {classroomService} from "../../services/classroomService";
 import {userService} from "../../services/userService";
+import {authService} from "../../services/authService";
 import {Link} from "react-router-dom";
 
 class AddMarks extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            currentUser: authService.currentUserValue,
             classroomId: props.match.params.id,
             classroom: {},
             students: []
@@ -34,20 +36,17 @@ class AddMarks extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        const subjectName = this.state.classroom.teacher.subject;
+        const subjectName = this.state.currentUser.subject;
         let coefficient = 0;
         let type = '';
-        // body.subject = subject;
 
         for (let i = 0; i < this.state.students.length + 2; i++) {
             if (i === 0) {
                 console.log('type : ' + e.target[i].value);
                 type = e.target[i].value;
-                // body.type = e.target[i].value
             } else if(i === 1) {
                 console.log(`coeff : ${e.target[i].valueAsNumber}`);
                 coefficient = e.target[i].valueAsNumber;
-                // body.coefficient = e.target[i].valueAsNumber
             } else {
                 console.log(`${this.state.students[i - 2].firstName} : ${e.target[i].valueAsNumber}`);
                 // Get mark
@@ -81,7 +80,7 @@ class AddMarks extends React.Component {
                                 }
                                 average = num / den;
                                 user.subjects[i].average = average;
-                                userService.addMarks(user)
+                                userService.update(user)
                             } else {
                                 user.subjects[i].marks = [{
                                     value: markValue,
@@ -89,9 +88,21 @@ class AddMarks extends React.Component {
                                     type: type
                                 }];
                                 user.subjects[i].average = markValue;
-                                userService.addMarks(user)
+                                userService.update(user)
 
                             }
+                        } else {
+                            const subject = {
+                                name: subjectName,
+                                marks: [{
+                                    value: markValue,
+                                    coefficient: coefficient,
+                                    type: type
+                                }],
+                                average: markValue
+                            };
+                            user.subjects.push(subject);
+                            userService.update(user)
                         }
                     }
                 } else { // New subject
@@ -105,7 +116,7 @@ class AddMarks extends React.Component {
                         average: markValue
                     };
                     user.subjects = [subject];
-                    userService.addMarks(user)
+                    userService.update(user)
                 }
             }
         }

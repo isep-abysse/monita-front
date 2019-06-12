@@ -54,7 +54,9 @@ class Login extends React.Component {
             }
         }
         body.role = 'student';
-        authService.register(body)
+        authService.register(body);
+        authService.login(body.email);
+        this.setRedirect()
     }
 
     // Register teacher
@@ -76,7 +78,9 @@ class Login extends React.Component {
             }
         }
         body.role = 'prof';
-        authService.register(body)
+        authService.register(body);
+        authService.login(body.email);
+        this.setRedirect()
     }
 
 
@@ -85,6 +89,7 @@ class Login extends React.Component {
         return (
             <div>
                 {this.renderRedirect()}
+                <h1 className="title">Monita</h1>
                 <h2>Se connecter</h2>
                 <form onSubmit={this.login}>
                     <input name="email" type="email" onChange={this.handleChange} placeholder="Email"/>
