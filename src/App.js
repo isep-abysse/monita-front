@@ -9,6 +9,7 @@ import Classroom from "./components/classroom/classroom";
 import AddMarks from "./components/addMarks/addMarks";
 import Subject from "./components/subject/subject";
 import Student from "./components/student/student";
+import Resit from "./components/resit/resit";
 import { authService } from './services/authService';
 import { history } from "./helpers/history";
 
@@ -58,6 +59,7 @@ class App extends React.Component {
                                     <Route path="/add/:id" component={AddMarks}/>
                                     <Route path="/subjects/:subject" component={Subject}/>
                                     <Route path="/:classroomId/student/:id" component={Student}/>
+                                    <Route path="/resit/:id" component={Resit}/>
                                 </div>
                             </div>
                         </div>

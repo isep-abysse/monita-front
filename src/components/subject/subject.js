@@ -8,7 +8,8 @@ class Subject extends React.Component {
         this.state = {
             currentUser: authService.currentUserValue,
             subject: props.match.params.subject,
-            marks: []
+            marks: [],
+            resit: ""
         };
         this.getMarks = this.getMarks.bind(this)
     }
@@ -20,6 +21,9 @@ class Subject extends React.Component {
     getMarks() {
         for (let i = 0; i < this.state.currentUser.subjects.length; i++) {
             if (this.state.currentUser.subjects[i].name === this.state.subject) {
+                if (this.state.currentUser.subjects[i].resit !== "") {
+                    this.setState({resit: this.state.currentUser.subjects[i].resit});
+                }
                 for (let j = 0; j < this.state.currentUser.subjects[i].marks.length; j++) {
                     const newMark = this.state.currentUser.subjects[i].marks[j];
                     this.setState((prevState) => ({
@@ -31,11 +35,16 @@ class Subject extends React.Component {
     }
 
     render() {
-        const { marks, subject } = this.state;
+        const { marks, subject, resit } = this.state;
         return(
             <div>
                 <Link to={`/`}>Retour</Link>
                 <h1>Notes de la matière {subject}</h1>
+                {resit !== "" &&
+                    <div>
+                        <p>Programme rattrapage: {resit}</p>
+                    </div>
+                }
                 <hr/>
                 <br/>
                 <br/>
@@ -44,7 +53,7 @@ class Subject extends React.Component {
                         return <li key={key}>
                             Note: {e.value}/20 | Coefficient: {e.coefficient} | Type: {e.type}<br/>
                             Commentaire: {e.comment}
-                        <hr/>
+                            <hr/>
                         </li>
                     })}
                 </ul>

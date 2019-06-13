@@ -65,7 +65,7 @@ class Classroom extends React.Component {
                         <Link to={`/add/${classroom.id}`}>Entrer des notes</Link>
                     </div>
                     <div className="btn btn-danger">
-                        <p>Définir les modalités de rattrapage</p>
+                        <Link to={`/resit/${classroom.id}`}>Définir les modalités de rattrapage</Link>
                     </div>
                 </section>
                 <hr/>
