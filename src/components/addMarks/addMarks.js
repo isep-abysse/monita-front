@@ -3,6 +3,7 @@ import {classroomService} from "../../services/classroomService";
 import {userService} from "../../services/userService";
 import {authService} from "../../services/authService";
 import {Link} from "react-router-dom";
+import {history} from "../../helpers/history";
 
 class AddMarks extends React.Component {
     constructor(props) {
@@ -58,18 +59,18 @@ class AddMarks extends React.Component {
 
                 // Get user subjects and add new subject
                 if (user.subjects !== null) {
+                    let done = false;
                     for (let i = 0; i < user.subjects.length; i++) {
                         console.log(user.subjects[i].name);
                         if (user.subjects[i].name === subjectName) {
                             if (user.subjects[i].marks !== null) {
+                                done = true;
                                 const newMark = {
                                     value: markValue,
                                     coefficient: coefficient,
                                     type: type
                                 };
-                                let newMarks = user.subjects[i].marks.slice();
-                                newMarks.push(newMark);
-                                user.subjects[i].marks = newMarks;
+                                user.subjects[i].marks.push(newMark);
                                 let average;
                                 let num = 0;
                                 let den = 0;
@@ -80,31 +81,26 @@ class AddMarks extends React.Component {
                                 }
                                 average = num / den;
                                 user.subjects[i].average = average;
-                                userService.update(user)
-                            } else {
-                                user.subjects[i].marks = [{
-                                    value: markValue,
-                                    coefficient: coefficient,
-                                    type: type
-                                }];
-                                user.subjects[i].average = markValue;
-                                userService.update(user)
-
+                                userService.update(user);
+                                history.push(`/classroom/${this.state.classroomId}`);
                             }
-                        } else {
-                            const subject = {
-                                name: subjectName,
-                                marks: [{
-                                    value: markValue,
-                                    coefficient: coefficient,
-                                    type: type
-                                }],
-                                average: markValue
-                            };
-                            user.subjects.push(subject);
-                            userService.update(user)
                         }
                     }
+                    if (!done) {
+                        const subject = {
+                            name: subjectName,
+                            marks: [{
+                                value: markValue,
+                                coefficient: coefficient,
+                                type: type
+                            }],
+                            average: markValue
+                        };
+                        user.subjects.push(subject);
+                        userService.update(user);
+                        history.push(`/classroom/${this.state.classroomId}`)
+                    }
+
                 } else { // New subject
                     let subject = {
                         name: subjectName,
@@ -116,23 +112,27 @@ class AddMarks extends React.Component {
                         average: markValue
                     };
                     user.subjects = [subject];
-                    userService.update(user)
+                    userService.update(user);
+                    history.push(`/classroom/${this.state.classroomId}`)
                 }
             }
         }
     }
 
     render() {
-        const { classroomId, classroom, students } = this.state;
+        const { classroomId, classroom, students, currentUser } = this.state;
         return (
             <div>
                 <Link to={`/classroom/${classroomId}`}>Retour</Link>
-                <h1>{classroom.name}</h1>
+                <h1>Classe {classroom.name} - {currentUser.subject}</h1>
+                <hr/>
+                <br/>
                 <h2>Ajouter des notes</h2>
+                <br/>
                 <form onSubmit={this.handleSubmit}>
                     <ul>
                         <input name="type" type="text" placeholder="Type (ex: DS)"/>
-                        <input name="coefficient" type="number" placeholder="Coefficient"/>
+                        <input name="coefficient" type="number" placeholder="Coefficient"/><br/><br/>
                         {students.map((e, key) => {
                             return <li key={key}>{e.firstName}<input name="mark" type="number" placeholder="Note"/></li>
                         })}

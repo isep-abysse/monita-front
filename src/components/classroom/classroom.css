@@ -2,3 +2,13 @@ section {
     display: flex;
     justify-content: space-between;
 }
+
+.btn {
+    max-height: 50px;
+    padding: .8em;
+    margin-bottom: 2em;
+}
+
+.btn>a {
+    color: white;
+}

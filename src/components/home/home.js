@@ -3,7 +3,7 @@ import React from 'react';
 import { authService } from '../../services/authService';
 import { Link } from "react-router-dom";
 import {classroomService} from "../../services/classroomService";
-
+import './home.css'
 
 class Home extends React.Component {
     constructor(props) {
@@ -35,34 +35,45 @@ class Home extends React.Component {
     render() {
         const { currentUser, classrooms } = this.state;
         return (
-                <div>
-                    {currentUser.role === 'student' &&
-                    <div>
-                        <h1>Votre relevé de notes!</h1>
-                        <ul>
-                            {currentUser.subjects.map((e, key) => {
-                                return <li key={key}>
+            <div>
+                {currentUser.role === 'student' &&
+                <div className="container">
+                    <h1>Votre relevé de notes!</h1>
+                    <hr/>
+                    <br/>
+                    <ul>
+                        {currentUser.subjects.map((e, key) => {
+                            return <div key={key} className="container-row">
+                                <div className="btn btn-primary">
                                     <Link to={{pathname: `/subjects/${e.name}`, state: {currentUser: currentUser}}}>
                                         {e.name}
                                     </Link>
-                                    <p>Moyenne : {e.average}</p>
-                                </li>
-                            })}
-                        </ul>
-                    </div>
-                    }
-                    {currentUser.role === 'prof' &&
-                    <div>
-                        <h1>Vos classes!</h1>
-                        <ul>
-                            {classrooms.map((e, key) => {
-                                return <li key={key}><Link to={`/classroom/${e.id}`}>{e.name}</Link></li>
-                            })}
-                        </ul>
+                                </div>
+                                <p>Moyenne : {e.average}/20</p>
+                            </div>
+                        })}
+                    </ul>
+                </div>
+                }
+                {currentUser.role === 'prof' &&
+                <div className="container">
+                    <h1>Vos classes!</h1>
+                    <hr/>
+                    <br/>
+                    <ul>
+                        {classrooms.map((e, key) => {
+                            return <div key={key} className="btn btn-primary"><Link to={`/classroom/${e.id}`}>{e.name}</Link></div>
+                        })}
+                    </ul>
+                    <br/>
+                    <hr/>
+                    <br/>
+                    <div className="btn btn-primary">
                         <Link to="/addClassroom">Ajouter une classe</Link>
                     </div>
-                    }
                 </div>
+                }
+            </div>
         );
     }
 }

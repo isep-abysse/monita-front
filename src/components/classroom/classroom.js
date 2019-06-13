@@ -53,25 +53,29 @@ class Classroom extends React.Component {
     }
 
     render() {
-        const { classroom, students, averages } = this.state;
+        const { classroom, students, averages, currentUser } = this.state;
         return(
             <div>
                 <Link to={`/`}>Retour</Link>
-                <h1>Classe {classroom.name}</h1>
+                <h1>Classe {classroom.name} - {currentUser.subject}</h1>
+                <hr/>
+                <br/>
                 <section>
-                    <div>
+                    <div className="btn btn-primary">
                         <Link to={`/add/${classroom.id}`}>Entrer des notes</Link>
                     </div>
-                    <div>
+                    <div className="btn btn-danger">
                         <p>Définir les modalités de rattrapage</p>
                     </div>
                 </section>
+                <hr/>
+                <br/>
                 <h2>Étudiants: </h2>
                 <ul>
                     {students.map((e, key) => {
                         console.log(e);
                         return <li key={key}>
-                            <Link to={`/student/${e.id}`}>
+                            <Link to={`/${classroom.id}/student/${e.id}`}>
                                 {e.firstName}
                             </Link>
                             <p> Moyenne: {averages[key]}</p>

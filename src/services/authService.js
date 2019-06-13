@@ -30,7 +30,7 @@ async function login(username) {
     const url = `${config.apiUrlLogin}/${username}`;
     const response = await fetch(url);
     const user = await response.text();
-    console.log(user);
+    // console.log(user);
 
     cookies.set('currentUser', user);
     currentUserSubject.next(user)

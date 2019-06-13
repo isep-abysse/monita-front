@@ -57,7 +57,7 @@ class App extends React.Component {
                                     <Route path="/classroom/:id" component={Classroom}/>
                                     <Route path="/add/:id" component={AddMarks}/>
                                     <Route path="/subjects/:subject" component={Subject}/>
-                                    <Route path="/student/:id" component={Student}/>
+                                    <Route path="/:classroomId/student/:id" component={Student}/>
                                 </div>
                             </div>
                         </div>

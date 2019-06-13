@@ -9,6 +9,7 @@ class Student extends React.Component {
         super(props);
         this.state = {
             currentUser: authService.currentUserValue,
+            classroomId: props.match.params.classroomId,
             studentId: props.match.params.id,
             student: {},
             marks: [],
@@ -83,11 +84,13 @@ class Student extends React.Component {
     }
 
     render() {
-        const { student, marks } = this.state;
+        const { student, marks, classroomId } = this.state;
         return(
             <div>
-                <Link to={`/`}>Retour</Link>
+                <Link to={`/classroom/${classroomId}`}>Retour</Link>
                 <h1>Notes de l'élève {student.firstName}</h1>
+                <hr/>
+                <br/>
                 <ul>
                     {marks.map((e, key) => {
                         return <li key={key}>

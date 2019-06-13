@@ -2,6 +2,7 @@ import React from 'react';
 import './login.css'
 import { Redirect } from 'react-router-dom'
 import { authService } from '../../services/authService';
+import {history} from "../../helpers/history";
 
 class Login extends React.Component {
 
@@ -9,22 +10,11 @@ class Login extends React.Component {
         super(props);
         this.state = {
             email: "",
-            redirect: false
+            // redirect: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.login = this.login.bind(this)
     }
-
-    // Redirect after login
-    setRedirect = () => {
-        this.setState({redirect: true})
-    };
-
-    renderRedirect = () => {
-        if (this.state.redirect) {
-            return <Redirect to={{pathname: '/'}} />
-        }
-    };
 
     // Login
     handleChange(e) {
@@ -34,7 +24,8 @@ class Login extends React.Component {
     async login(e) {
         e.preventDefault();
         await authService.login(this.state.email);
-        this.setRedirect()
+        history.push('/');
+        window.location.reload()
     }
 
     // Register student
@@ -56,7 +47,8 @@ class Login extends React.Component {
         body.role = 'student';
         authService.register(body);
         authService.login(body.email);
-        this.setRedirect()
+        history.push('/');
+        window.location.reload()
     }
 
     // Register teacher
@@ -80,7 +72,8 @@ class Login extends React.Component {
         body.role = 'prof';
         authService.register(body);
         authService.login(body.email);
-        this.setRedirect()
+        history.push('/');
+        window.location.reload()
     }
 
 
@@ -88,7 +81,6 @@ class Login extends React.Component {
     render() {
         return (
             <div>
-                {this.renderRedirect()}
                 <h1 className="title">Monita</h1>
                 <h2>Se connecter</h2>
                 <form onSubmit={this.login}>

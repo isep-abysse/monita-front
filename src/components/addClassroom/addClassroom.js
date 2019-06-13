@@ -2,6 +2,7 @@ import React from "react";
 import {classroomService} from "../../services/classroomService";
 import {authService} from "../../services/authService";
 import {userService} from "../../services/userService";
+import {history} from "../../helpers/history";
 
 class AddClassroom extends React.Component {
 
@@ -59,7 +60,8 @@ class AddClassroom extends React.Component {
         const teacherId = this.state.currentUser.id;
         updatedClassroom.teachers.push(teacherId);
         console.log(updatedClassroom);
-        classroomService.update(updatedClassroom)
+        classroomService.update(updatedClassroom);
+        history.push('/')
     }
 
     async createClassroom(e) {
@@ -73,7 +75,7 @@ class AddClassroom extends React.Component {
     render() {
         return (
             <div>
-                <h2>Choissez une classe</h2>
+                <h2>Choisissez une classe</h2>
                 <form>
                     <select name="classrooms" value=' ' onChange={this.addClassroom}>
                         <option value=' '> </option>
@@ -81,7 +83,6 @@ class AddClassroom extends React.Component {
                             return <option key={key} value={JSON.stringify(e)}>{e.name}</option>
                         })}
                     </select>
-                    {/*<input type="submit" value="Ajouter"/>*/}
                 </form>
                 <br/>
                 <hr/>
