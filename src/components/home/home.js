@@ -42,7 +42,7 @@ class Home extends React.Component {
                     <hr/>
                     <br/>
                     <ul>
-                        {currentUser.subjects.map((e, key) => {
+                        {currentUser.subjects && currentUser.subjects.map((e, key) => {
                             return <div key={key} className="container-row">
                                 <div className="btn btn-primary">
                                     <Link to={{pathname: `/subjects/${e.name}`, state: {currentUser: currentUser}}}>
