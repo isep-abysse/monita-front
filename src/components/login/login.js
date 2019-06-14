@@ -29,7 +29,7 @@ class Login extends React.Component {
     }
 
     // Register student
-    registerStudent(e) {
+    async registerStudent(e) {
         e.preventDefault();
         let body = {};
         for (let i = 0; i < e.target.length - 1; i++) {
@@ -45,14 +45,14 @@ class Login extends React.Component {
             }
         }
         body.role = 'student';
-        authService.register(body);
-        authService.login(body.email);
+        await authService.register(body);
+        await authService.login(body.email);
         history.push('/');
         window.location.reload()
     }
 
     // Register teacher
-    registerTeacher(e) {
+    async registerTeacher(e) {
         e.preventDefault();
         let body = {};
         for (let i = 0; i < e.target.length - 1; i++) {
@@ -70,8 +70,8 @@ class Login extends React.Component {
             }
         }
         body.role = 'prof';
-        authService.register(body);
-        authService.login(body.email);
+        await authService.register(body);
+        await authService.login(body.email);
         history.push('/');
         window.location.reload()
     }
